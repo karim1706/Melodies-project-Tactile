@@ -169,20 +169,20 @@
         
 
         // Si on lance un autre audio, l'audio précédent s'arrête
-        window.addEventListener('play', function(e){
+        window.addEventListener('play', function(f){
             var melodies = document.getElementsByTagName('audio');
-            for(var i = 0; i < melodies.length; i++){
-                if(melodies[i] != e.target){
-                    melodies[i].pause();
+            for(var j = 0; j < melodies.length; j++){
+                if(melodies[j] != f.target){
+                    melodies[j].pause();
                 }
             }
         }, true);
 
         // On récupère les touches du clavier et on leur ajoute la classe "scale"
         // La classe scale permet de grossir la touche lors du click.
-        const touch = document.querySelector(`.touch[data-key = "${e.keyCode}"]`);
+        
 
-        touch.addEventListener('touchstart')
+        
        })
         
 
