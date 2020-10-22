@@ -32,6 +32,8 @@
             margin-left: 10px;
         }
 
+        
+
         .container{
             display: flex;
             flex-direction: row;
@@ -42,6 +44,7 @@
         }
 
         .touch{
+            cursor: grab;
             color: yellow;
             background-color: #000; /* rgba(161, 40, 40, 0.5);*/
             border: 1px solid yellow;
@@ -111,83 +114,64 @@
     <p>(Cliquez sur les touches K, A, R, I ou M du clavier et laissez-vous transporter<br> par une douce et relaxante musique au piano.)</p>
     
     <div class="container">
-        <div class="touch" data-key="75" >K</div>
+        <div class="touch" data-id="a75">K</div>
         <div class="white" ></div>
-        <div class="touch" data-key="65" >A</div>
+        <div class="touch" data-id="b65">A</div>
         <div class="white" ></div>
-        <div class="touch" data-key="82" >R</div>
+        <div class="touch" data-id="c82">R</div>
         <div class="white" ></div>
-        <div class="touch" data-key="73" >I</div>
+        <div class="touch" data-id="d73">I</div>
         <div class="white" ></div>
-        <div class="touch" data-key="77" >M</div>
+        <div class="touch" data-id="e77">M</div>
     </div>
         
 
-    <audio src="audios/melodie1.mp3" alt="melodie 1" data-key="75" ></audio> 
-    <audio src="audios/melodie2.mp3" alt="melodie 2" data-key="65" ></audio>
-    <audio src="audios/melodie3.mp3" alt="melodie 3" data-key="82" ></audio>
-    <audio src="audios/melodie4.mp3" alt="melodie 4" data-key="73" ></audio>
-    <audio src="audios/melodie5.mp3" alt="melodie 5" data-key="77" ></audio>
+    <audio src="audios/melodie1.mp3" alt="melodie 1" data-id="a75" ></audio> 
+    <audio src="audios/melodie2.mp3" alt="melodie 2" data-id="b65" ></audio>
+    <audio src="audios/melodie3.mp3" alt="melodie 3" data-id="c82" ></audio>
+    <audio src="audios/melodie4.mp3" alt="melodie 4" data-id="d73" ></audio>
+    <audio src="audios/melodie5.mp3" alt="melodie 5" data-id="e77" ></audio>
 
     <script>
-
-        
-           window.addEventListener('keydown', e => {
-                const audio = document.querySelector(`audio[data-key = "${e.keyCode}"]`);
-
-            // S'il n'y a pas d'audios correspondant alors la fonction s'arrête
-            // Sinon on lance l'audio.
-           if(!audio) return;
-           
-            audio.play();
-            
-
-            // Si on lance un autre audio, l'audio précédent s'arrête
-            window.addEventListener('play', function(e){
-                var audios = document.getElementsByTagName('audio');
-                for(var i = 0; i < audios.length; i++){
-                    if(audios[i] != e.target){
-                        audios[i].pause();
-                    }
-                }
-            }, true);
-
-            // On récupère les touches du clavier et on leur ajoute la classe "scale"
-            // La classe scale permet de grossir la touche lors du click.
-           
-           })
-           
-            
-           window.addEventListener('touchstart', f => {
-            const melody = document.querySelector(`audio[data-key = "${f.keyCode}"]`);
-
-        // S'il n'y a pas d'audios correspondant alors la fonction s'arrête
-        // Sinon on lance l'audio.
-       if(!melody) return;
        
-        melody.play();
-        
+      
+            
+           let touch = document.querySelectorAll(`.touch[data-id]`);
 
-        // Si on lance un autre audio, l'audio précédent s'arrête
-        window.addEventListener('play', function(f){
-            var melodies = document.getElementsByTagName('audio');
-            for(var j = 0; j < melodies.length; j++){
-                if(melodies[j] != f.target){
-                    melodies[j].pause();
-                }
-            }
-        }, true);
+          touch.forEach(element => {
+              element.addEventListener('click', () => {
+                  // Récupérer le data-id
+                  let id = element.dataset.id; console.log(id);
+                  // Jouer une mélodie au click
+                  let audio = document.querySelector(`audio[data-id=${id}]`);
 
-        // On récupère les touches du clavier et on leur ajoute la classe "scale"
-        // La classe scale permet de grossir la touche lors du click.
-        
+                  if(!audio) return;
+                  audio.play();
 
-        
-       })
-        
+                  // Si on lance un autre audio, l'audio précédent s'arrête
+                document.addEventListener('play', function(e){
+                    var audios = document.getElementsByTagName('audio');
+                    for(var i = 0; i < audios.length; i++){
+                        if(audios[i] != e.target){
+                            audios[i].pause();
+                        }
+                    }
+                }, true);
 
+                // On récupère les touches du clavier et on leur ajoute la classe "scale"
+                // La classe scale permet de grossir la touche lors du click.
+                const touch = document.querySelector(`.touch[data-id=${id}]`);
+                    touch.classList.add('scale');
 
-  
+                // On retire la classe scale une fois le doigt enlevé de la touche
+                window.addEventListener('mouseout', event => {
+                    touch.classList.remove('scale');
+        })  
+                            
+              })
+          })
+
+          
     </script>
 </body>
 </html>
