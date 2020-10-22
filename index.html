@@ -11,7 +11,7 @@
             padding:0;
             height: 1061px;
             width: 100%;
-            background: url('images/piano.jpg') no-repeat;
+            background: url('images/piano4.jpg') no-repeat;
             background-size:100% 100%;
         }
 
@@ -37,7 +37,7 @@
         .container{
             display: flex;
             flex-direction: row;
-             transform:  skewY(15deg);
+            /* transform:  skewY(15deg);*/
              position: absolute;
              top:80%;
              left: 22%;
@@ -45,28 +45,32 @@
 
         .touch{
             cursor: grab;
-            color: yellow;
-            background-color: #000; /* rgba(161, 40, 40, 0.5);*/
-            border: 1px solid yellow;
-            width: 18px;
-            height: 60px;
+            color: black;
+            background-color: #fff; /* rgba(161, 40, 40, 0.5);*/
+            border: 1px solid black;
+            width: 78px;
+            height: 260px;
             text-align: center;
             font-size: 1.5em;
             padding: 5px;
-            margin-right: 0.5em;
+            position: relative;
            
         }
 
         .white{
-            width: 18px;
-            height: 60px;
-            background-color: #fff;
-            margin-right: 0.5em;
+            
+            width: 25px;
+            height: 150px;
+            background-color: #000;
             padding: 5px;
+            position: absolute;
+            left: 77%;
+            z-index: 9999;
+            top: 0;
         }
 
         .scale{
-            transform: scale(2);
+            transform: scale(1.1);
         }
 
         @media screen and (max-width: 760px){
@@ -113,15 +117,18 @@
         and let yourself be surprised<br> by a beautiful & relaxing melody.</h3> 
     <p>(Cliquez sur les touches K, A, R, I ou M du clavier et laissez-vous transporter<br> par une douce et relaxante musique au piano.)</p>
     
+
+       
+
     <div class="container">
-        <div class="touch" data-id="a75">K</div>
-        <div class="white" ></div>
-        <div class="touch" data-id="b65">A</div>
-        <div class="white" ></div>
-        <div class="touch" data-id="c82">R</div>
-        <div class="white" ></div>
-        <div class="touch" data-id="d73">I</div>
-        <div class="white" ></div>
+        <div class="touch" data-id="a75">K<div class="white" ></div></div>
+        
+        <div class="touch" data-id="b65">A<div class="white" ></div></div>
+        
+        <div class="touch" data-id="c82">R<div class="white" ></div></div>
+        
+        <div class="touch" data-id="d73">I<div class="white" ></div></div>
+        
         <div class="touch" data-id="e77">M</div>
     </div>
         
@@ -137,9 +144,10 @@
       
             
            let touch = document.querySelectorAll(`.touch[data-id]`);
+           
 
           touch.forEach(element => {
-              element.addEventListener('click', () => {
+              element.addEventListener('mousedown', () => {
                   // Récupérer le data-id
                   let id = element.dataset.id; console.log(id);
                   // Jouer une mélodie au click
@@ -158,16 +166,13 @@
                     }
                 }, true);
 
-                // On récupère les touches du clavier et on leur ajoute la classe "scale"
-                // La classe scale permet de grossir la touche lors du click.
-                const touch = document.querySelector(`.touch[data-id=${id}]`);
-                    touch.classList.add('scale');
+                let touches = document.querySelector(`.touch[data-id=${id}]`);
+                touches.classList.add('scale');
 
-                // On retire la classe scale une fois le doigt enlevé de la touche
-                window.addEventListener('mouseout', event => {
-                    touch.classList.remove('scale');
-        })  
-                            
+                touches.addEventListener('mouseup', () => {
+                    touches.classList.remove('scale');
+                })
+  
               })
           })
 
